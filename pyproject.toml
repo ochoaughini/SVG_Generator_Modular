@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "svg_generator"
+version = "0.1.0"
+description = "Advanced SVG generator from text prompts for competitions and illustrative purposes."
+authors = [{name = "Your Name / Team Name", email = "your@email.com"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics :: Editors :: Vector-Based",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+dependencies = [
+    "lxml>=4.9.0",      # For robust SVG parsing and manipulation
+    "numpy>=1.26.0",    # For numerical operations (e.g. procedural generation)
+    "scour>=0.38.2",    # For SVG optimization
+    # "Pillow>=10.0.0", # If you plan to rasterize for quality checks
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.12.0",
+    "ruff>=0.1.9",
+    "mypy>=1.8.0",
+    "pre-commit>=3.6.0",
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=1.3.0", # Example theme
+    "mkdocstrings[python]>=0.24.0", # If using MkDocs with mkdocstrings
+    # "cairosvg>=2.7.0", # If using for PNG conversion in quality checks
+]
+
+[project.scripts]
+svg-generator = "svg_generator.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["svg_generator"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov=src/svg_generator --cov-report=html --cov-report=xml"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["svg_generator"]
+
+[tool.black]
+line-length = 119
+target-version = ['py310', 'py311', 'py312']
+
+[tool.ruff]
+line-length = 119
+select = ["E", "F", "W", "I", "UP", "S", "C90", "N"] # Enable a good set of Ruff checks
+ignore = ["E501"] # Handled by black
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+packages = ["svg_generator"]
